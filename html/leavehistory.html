@@ -5,7 +5,7 @@
 		<th>Leave Tag</th>
 		<th>Apply Date</th>
 		<th>Leave date</th>
-		<th st-sort="duration">Duration</th>
+		<th>Duration</th>
 		<th>status</th>
 		<th>Action</th>
 	</tr>
@@ -14,9 +14,9 @@
 	<tr ng-repeat="row in leaveHistory">
 		<td>{{row.leaveTag}}</td>
 		<td>{{row.applyDate}}</td>
-		<td>{{row.leaveDate}}</td>
-		<td>{{row.duration}}</td>
-		<td>{{row.status}}</td>
+		<td>{{row.startdate}}</td>
+		<td>{{row.noOfDays}}</td>
+		<td>{{row.leaveStatusCode}}</td>
 		<td><button class="btn btn-danger" ng-click="showAlert()">Cancle</button></td>
 	</tr>
 	</tbody>
