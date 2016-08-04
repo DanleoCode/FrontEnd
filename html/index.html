@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="../lib/restangular/dist/restangular.js"></script>
 		<script type="text/javascript" src="../lib/angular-1.5.8/angular-cookies.js"></script>
 		<script type="text/javascript" src="../js/app.js"></script>
-		<script type="text/javascript" src="../js/controller/leavehistory.js"></script>
+		<script type="text/javascript" src="../js/controller/leave.js"></script>
 		<script type="text/javascript" src="../js/controller/dashboard.js"></script>
 		<script type="text/javascript" src="../lib/Smart-Table/dist/smart-table.js"></script>
 		<link rel="stylesheet" href="../lib/bootstrap-3.3.6-dist/css/bootstrap.css">
@@ -18,13 +18,14 @@
 		<title>LMS | Home</title>
 	</head>
 	<body ng-app="leaveSys"">
-			<div class="col-md-3-offset-3 ">
-				< Leave Management System
+			<div style="width:100%;background-color=blue;height:10%;text:'center'" ng-controller='mainController'>
+					<h1>Leaves<button class="btn btn-primary" style="float: right;margin:0 2% 0 0;" ng-click="logout()">Logout</button></h1>	
+					
 			</div>
 			<div class="">
 			<div class="row">
 		        <div class="col-lg-11 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
-		            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+		            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu" ng-controller="mainController">
 		              <div class="list-group">
 		                <a ui-sref="employeeDashboard" class="list-group-item active text-center">
 		                	<center></center>
@@ -36,7 +37,7 @@
 		                <a ui-sref="leaveHistory" class="list-group-item text-center">
 		                  <h4>Leave History</h4>
 		                </a>
-		                <a ui-sref="approveLeave" class="list-group-item text-center">
+		                <a ng-show="approvalTab()" ui-sref="approveLeave" class="list-group-item text-center">
 		                  <h4>Approve Leave</h4>
 		                </a>
 		                <a ui-sref="employeeSetting" class="list-group-item text-center">

@@ -1,31 +1,31 @@
 <div class="col col-md-12">
-<table st-table="leaveHistory" class="table table-striped">
+<table st-table="leaveHistory" class="table table-striped" st-safe-src="rowCollection" >
 	<thead>
 	<tr>
-		<th>Leave Tag</th>
-		<th>Apply Date</th>
+		<th st-sort="tag">Leave Tag</th>
+		<th st-sort="startdate">Apply Date</th>
 		<th>Leave date</th>
-		<th>Duration</th>
+		<th st-sort="noOfDays">Duration</th>
 		<th>status</th>
 		<th>Action</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr ng-repeat="row in leaveHistory">
-		<td>{{row.leaveTag}}</td>
-		<td>{{row.applyDate}}</td>
+		<td>{{row.tag}}</td>
+		<td>{{row.applicationDate}}</td>
 		<td>{{row.startdate}}</td>
 		<td>{{row.noOfDays}}</td>
-		<td>{{row.leaveStatusCode}}</td>
-		<td><button class="btn btn-danger" ng-click="showAlert()">Cancle</button></td>
+		<td>{{row.leaveStatusCode | leaveStatus}}</td>
+		<td><button class="btn btn-danger" ng-disabled="CanBeCancled(row.leaveStatusCode)" ng-click="cancelLeave(row.leaveId)">Cancle</button></td>
 	</tr>
 	</tbody>
 	<tfoot>
-			<tr>
-				<td colspan="5" class="text-center">
-					<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
-				</td>
-			</tr>
-		</tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
+			</td>
+		</tr>
+<!-- 		</tfoot> -->
 </table>
 </div>

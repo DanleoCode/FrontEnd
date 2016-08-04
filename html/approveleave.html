@@ -1,1 +1,31 @@
-<h1>Approve a leave</h1>
+<div class="col col-md-12">
+<table st-table="leaveApproval" class="table table-striped" st-safe-src="rowCollectionApproval" >
+	<thead>
+	<tr>
+		<th>Employee Name</th>
+		<th>Application Date</th>
+		<th>Leave date</th>
+		<th>Duration</th>
+		<th>status</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in leaveApproval">
+		<td>{{row.firstName + " " + row.lastName}}</td>
+		<td>{{row.creationTime | date : 'yyyy-MM-dd'}}</td>
+		<td>{{row.startdate}}</td>
+		<td>{{row.noOfDays}}</td>
+		<td>{{row.leaveStatusCode | leaveStatus}}</td>
+		<td><button class="btn btn-danger" ng-disabled="" ng-click="">Cancel</button></td>
+	</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
+			</td>
+		</tr>
+<!-- 		</tfoot> -->
+</table>
+</div>

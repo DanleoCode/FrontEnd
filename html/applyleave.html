@@ -1,33 +1,34 @@
 <div class="panel col-md-6 col-md-offset-2 center">
 		<div class="panel-heading paneltheme">Apply A leave</div>
 		<div class="panel-body">
-			<form role="form" class="form">
+			<form role="form" class="form" name="leaveForm">
 				<div class="form-group">
-					<select class="form-control">
-						<option value="cl">Type Of Leave</option>
-						<option value="cl">Casual Leave</option>
-						<option value="pl">Privilege Leave</option>
+					<select class="form-control" ng-model="leave.leaveTypeId">
+						<option value="">Type Of Leave</option>
+						<option value="921">Casual Leave</option>
+						<option value="922">Privilege Leave</option>
+						<option value="923">Sick Leave</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Number Of days"/>
+					<input type="text" class="form-control" ng-model="leave.noOfDays" placeholder="Number Of days"/>
 				</div>
 				<div class="form-group">
-					<textarea  class="form-control" placeholder="State a Short Message For Leave Reason"></textarea>
+					<textarea  class="form-control" ng-model="leave.message" placeholder="State a Short Message For Leave Reason"></textarea>
 				</div>
 				<div class="form-group">
 				<label for="From date">From Date</label>
-					<input type="date" class="form-control">
+					<input type="date" class="form-control" ng-model="startDate">
 				</div>
 				<div class="form-group">
 					<label for="To date">To Date</label>
-					<input type="date" class="form-control">
+					<input type="date" class="form-control" ng-model="endDate">
 				</div>
 				<div class="form-group">
-					<input type="Text" placeholder="A tag For this leave" class="form-control">
+					<input type="Text" placeholder="A tag For this leave" class="form-control" ng-model="leave.tag">
 				</div>
-				<button class="btn btn-success">Apply</button>
-				<button class="btn btn-error">Cancle</button>
+				<button class="btn btn-success" ng-click="applyLeave()">Apply</button>
+				<button class="btn btn-error" ng-click="reset()">Cancle</button>
 			</form>
 		</div>
 
