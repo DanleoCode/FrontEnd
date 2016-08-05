@@ -12,12 +12,13 @@
 	</thead>
 	<tbody>
 	<tr ng-repeat="row in leaveApproval">
-		<td>{{row.firstName + " " + row.lastName}}</td>
-		<td>{{row.creationTime | date : 'yyyy-MM-dd'}}</td>
-		<td>{{row.startdate}}</td>
-		<td>{{row.noOfDays}}</td>
-		<td>{{row.leaveStatusCode | leaveStatus}}</td>
-		<td><button class="btn btn-danger" ng-disabled="" ng-click="">Cancel</button></td>
+		<td>{{row.employeeInfo.firstName + " " + row.employeeinfo.lastName}}</td>
+		<td>{{row.leaveHistory.creationTime | date : 'yyyy-MM-dd'}}</td>
+		<td>{{row.leave.startdate}}</td>
+		<td>{{row.leave.noOfDays}}</td>
+		<td>{{row.leaveHistory.leaveStatusCode | leaveStatus}}</td>
+		<td><button class="btn btn-danger" ng-disabled="" ng-click="updateStatus(row,995)">Reject</button>
+			<button class="btn btn-success" ng-disabled="" ng-click="updateStatus(row,992)">Approve</button></td>
 	</tr>
 	</tbody>
 	<tfoot>
