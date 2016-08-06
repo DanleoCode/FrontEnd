@@ -33,14 +33,16 @@ startApp.controller("loginController",[
 								$scope.loginCredential = {};
 								$scope.userInfo = {};
 								$scope.loginCredential.user = "AL185";
-								$scope.loginCredential.pass = "";
+								$scope.loginCredential.pass = "123";
 								$scope.changePage = function() {
 									console.log($scope.loginCredential);
 									Restangular.all("auth/login")
 											.post($scope.loginCredential)
 											.then(function(data) {
-													$scope.userInfo = data.plain();
-													if (Number($scope.userInfo.empId) > 0) {
+													$scope.userInfo = data.plain()[0];
+													console.log("hello");
+													console.log(data);
+													if ($scope.userInfo != undefined && Number($scope.userInfo.empId) > 0) {
 														var obj = {currentUser : $scope.userInfo};
 														$cookies.putObject('userInfo',obj);
 														var cookie = $cookies.getObject('userInfo')

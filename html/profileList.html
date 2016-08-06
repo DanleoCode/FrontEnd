@@ -1,0 +1,37 @@
+<div class="col col-md-12">
+<table st-table="profileList" class="table table-striped" st-safe-src="rowCollectionProfile" >
+	<thead>
+	<tr>
+		<th>EmployeeId</th>
+		<th>Employee Name</th>
+		<th>Creation Date</th>
+		<th>Contact</th>
+		<th>status</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in profileList" st-select-row="row">
+		<td>{{row.empCode}}</td>
+		<td>{{row.firstName + " " + row.lastName}}</td>
+		<td>{{row.creationTime | date : 'yyyy-MM-dd'}}</td>
+		<td>{{row.mobile}}</td>
+		<td>{{row.employeeAccountStatus | AcoountStatus}}</td>
+		<td>
+			<button class="btn btn-primary" ng-click="viewProfile(row)" data-toggle="modal" data-target="#myModal">View</button>
+			<button class="btn btn-success">Edit</button>
+			</td>
+			
+	</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
+			</td>
+		</tr>
+		</tfoot>
+</table>
+</div>
+
+

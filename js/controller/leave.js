@@ -116,8 +116,11 @@ leaveModule.filter('leaveStatus', function() {
 			return "In-Progress";
 		else if(leaveStatusCode == 992)
 			return "Lead Approved";
-		else
-			return leaveStatusCode; 
+		else if(leaveStatusCode == 993)
+			return "manager Approved";
+		else if(leaveStatusCode == 994)
+			return "Approved";
+		return leaveStatusCode; 
 		
 	}
 })

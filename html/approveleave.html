@@ -17,8 +17,8 @@
 		<td>{{row.leave.startdate}}</td>
 		<td>{{row.leave.noOfDays}}</td>
 		<td>{{row.leaveHistory.leaveStatusCode | leaveStatus}}</td>
-		<td><button class="btn btn-danger" ng-disabled="" ng-click="updateStatus(row,995)">Reject</button>
-			<button class="btn btn-success" ng-disabled="" ng-click="updateStatus(row,992)">Approve</button></td>
+		<td><button class="btn btn-danger" ng-disabled="" ng-click="updateStatus(row,0)">Reject</button>
+			<button class="btn btn-success" ng-disabled="" ng-click="updateStatus(row,1)">Approve</button></td>
 	</tr>
 	</tbody>
 	<tfoot>

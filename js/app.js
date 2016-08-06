@@ -2,7 +2,7 @@
 
 var leaveSys = angular.module("leaveSys", [ "leaveModule", "ui.router",
 		'dashBoardModule', 'smart-table', 'ngLodash', 'restangular',
-		'ngCookies' ]);
+		'ngCookies', 'adminModule' ]);
 
 leaveSys.config([
 		'$stateProvider',
@@ -28,6 +28,10 @@ leaveSys.config([
 			}).state("employeeSetting", {
 				url : "/employeesetting",
 				templateUrl : "../html/employeesetting.html"
+			}).state('Profiles',{
+				url : "/profiles",
+				templateUrl : "../html/profileList.html",
+				controller : "listProfile"
 			});
 
 			$urlRouterProvider.otherwise("/home");
@@ -52,6 +56,12 @@ leaveSys.controller('mainController',['$scope','Restangular','$window', '$cookie
 		if(employeeType == "961")
 			return false;
 		return true;
+	}
+	$scope.profileTab = function(){
+		var employeeType = $cookies.getObject('userInfo').currentUser.employeeType;
+		if(employeeType == "964")
+			return true;
+		return false;
 	}
 }]);
 
