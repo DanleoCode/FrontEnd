@@ -65,3 +65,50 @@ leaveSys.controller('mainController',['$scope','Restangular','$window', '$cookie
 	}
 }]);
 
+leaveSys.filter('AccountStatus',function(){
+	return function(code){
+		if(code == "901")
+			return "Active";
+		else if(code == "904")
+			return "Not Approved";
+		else return code;
+	}
+});
+
+leaveSys.filter('EmployeeType',function(){
+	return function(code){
+		if(code == "961")
+			return "Level1";
+		else if(code == "962"){
+			return "Approver";
+		} else if(code == "964")
+			return "HR";
+	}
+})
+leaveSys.filter('gender',function(){
+	return function(code){
+		if(code == true)
+			return "Male";
+		else if(code == false)
+			return "Female";
+		else 
+			return code; 
+	}
+})
+
+leaveSys.service('accountStatus', function() {
+  var accountStatusList = {"Active" : 901,
+		  					"Not Approved": 904}
+//	  [{id:901,label:"Active"},
+//       {id:904, label:"Not Approved"}];
+
+  function getaccountStatusList(){
+      return accountStatusList;
+  };
+
+  return {
+	  getaccountStatusList: getaccountStatusList
+  };
+
+});
+

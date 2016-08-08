@@ -108,7 +108,7 @@ leaveModule.controller('leaveApproval',[
 							}
 						} ]);
 
-leaveModule.filter('leaveStatus', function() {
+leaveSys.filter('leaveStatus', function() {
 	return function(leaveStatusCode) {
 		if (leaveStatusCode == 1000)
 			return "Canceled";
