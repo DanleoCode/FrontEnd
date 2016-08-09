@@ -1,0 +1,84 @@
+<div class="col col-md-12">
+<table st-table="fullHistory" class="table table-striped" st-safe-src="rowCollectionHistory" >
+	<thead>
+	<tr>
+		<th colspan="2">
+			<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+		</th>
+	</tr>
+	<tr>
+		<th>Leave Id</th>
+		<th st-sort="">Name</th>
+		<th st-sort="startdate">Apply Date</th>
+		<th>Leave date</th>
+		<th st-sort="noOfDays">Duration</th>
+		<th>status</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in fullHistory">
+		<td>{{row.leaveHistory.leaveId}}</td>
+		<td>{{row.employeeInfo.firstName + " " + row.employeeInfo.lastName }}</td>
+		<td>{{row.leaveHistory.creationTime | date : 'yyyy-mm-dd'}}</td>
+		<td>{{row.leave.startdate}}</td>
+		<td>{{row.leave.noOfDays}}</td>
+		<td>{{row.leaveHistory.leaveStatusCode | leaveStatus}}</td>
+		<td><button class="btn btn-success" ng-click="viewLeaveDetail(row)" data-toggle="modal" data-target="#viewLeave">
+			<i class="glyphicon glyphicon-eye-open"></i>
+			</button></td>
+	</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="5" st-displayed-pages="4"></div>
+			</td>
+		</tr>
+		</tfoot>
+</table>
+</div>
+
+<div class="modal fade" id="viewLeave" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Leave Detail</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<dl class="dl-horizontal">
+						<dt>Employee ID</dt>
+						<dd>{{employeeInfo.empCode}}</dd>
+						<dt>First Name</dt>
+						<dd>{{employeeInfo.firstName}}</dd>
+						<dt>Last Name</dt>
+						<dd>{{employeeInfo.lastName}}</dd>
+						<dt>Leave Type</dt>
+						<dd>{{leave.leaveTypeId | leaveType}}</dd>
+						<dt>Application Date</dt>
+						<dd>{{leaveHistory.creationTime | date : 'yyyy-MM-dd'}}</dd>
+						<dt>No Of Days</dt>
+						<dd>{{leave.noOfDays}}</dd>
+						<dt>From Date</dt>
+						<dd>{{leave.startdate | date : 'yyyy-MM-dd'}}</dd>
+						<dt>To Date</dt>
+						<dd>{{leave.endDate | date : 'yyyy-MM-dd'}}</dd>
+						<dt>Last Status</dt>
+						<dd>{{leaveHistory.leaveStatusCode | leaveStatus}}</dd>
+						<dt>Leave Message</dt>
+						<dd>{{leave.message}}</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

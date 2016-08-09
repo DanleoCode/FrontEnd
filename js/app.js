@@ -2,7 +2,7 @@
 
 var leaveSys = angular.module("leaveSys", [ "leaveModule", "ui.router",
 		'dashBoardModule', 'smart-table', 'ngLodash', 'restangular',
-		'ngCookies', 'adminModule' ]);
+		'ngCookies', 'adminModule', 'settingModule' ]);
 
 leaveSys.config([
 		'$stateProvider',
@@ -27,13 +27,18 @@ leaveSys.config([
 				controller : "leaveApproval"
 			}).state("employeeSetting", {
 				url : "/employeesetting",
-				templateUrl : "../html/employeesetting.html"
+				templateUrl : "../html/employeesetting.html",
+				controller : "setting"
 			}).state('Profiles',{
 				url : "/profiles",
 				templateUrl : "../html/profileList.html",
 				controller : "listProfile"
+			}).state('fullHistory',{
+				url : "/completeHistory",
+				templateUrl : "../html/fullHistory.html",
+				controller : "allHistory"
 			});
-
+			
 			$urlRouterProvider.otherwise("/home");
 			RestangularProvider
 					.setBaseUrl("http://localhost:8080/leavemanagement/api");
@@ -79,7 +84,7 @@ leaveSys.filter('EmployeeType',function(){
 	return function(code){
 		if(code == "961")
 			return "Level1";
-		else if(code == "962"){
+		else if(code == "962" || code == "963"){
 			return "Approver";
 		} else if(code == "964")
 			return "HR";
@@ -99,16 +104,44 @@ leaveSys.filter('gender',function(){
 leaveSys.service('accountStatus', function() {
   var accountStatusList = {"Active" : 901,
 		  					"Not Approved": 904}
-//	  [{id:901,label:"Active"},
-//       {id:904, label:"Not Approved"}];
 
   function getaccountStatusList(){
       return accountStatusList;
   };
-
+  
   return {
 	  getaccountStatusList: getaccountStatusList
   };
 
 });
 
+leaveSys.service('employeeTypeCode',function(){
+	var employeeTypeList = {"Leavel1" : 961,
+						"Team Lead" : 962,
+						"Project Manager": 963}
+	
+	function getEmployeeTypeList(){
+		return employeeTypeList;
+	}
+	
+	return {
+		getEmployeeTypeList : getEmployeeTypeList
+	}
+})
+
+leaveSys.filter('leaveType', function(){
+	return function(leaveTypeCode){
+		switch(leaveTypeCode){
+			case 921:
+				return "Casual Leave";
+			case 922:
+				return "Privilege Leave";
+			case 923:
+				return "Sick Leave";
+			case 924:
+				return "Comp Off";
+			default:
+				return leaveTypeCode;
+		}
+	}
+})

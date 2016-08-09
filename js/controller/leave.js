@@ -33,7 +33,7 @@ leaveModule.controller("leaveHistoryController",[
 							}
 
 							$scope.CanBeCancled = function(leaveStatusCode) {
-								if (leaveStatusCode == 1000)
+								if (leaveStatusCode == 1000 || leaveStatusCode == 998 || leaveStatusCode == 999)
 									return true;
 								return false;
 							}
@@ -72,13 +72,10 @@ leaveModule.controller('newLeaveController',[
 							}
 						} ])
 
-leaveModule.controller('leaveApproval',[
-						'$scope',
-						'$cookies',
-						'$window',
-						'Restangular',
+leaveModule.controller('leaveApproval',['$scope', '$cookies', '$window','Restangular',
 						function($scope, $cookies, $window, Restangular) {
 							$scope.leaveApproval = {};
+							$scope.rowCollectionApproval = [];
 							if (($cookies.getObject('userInfo') == undefined)) {
 								$window.location.href = 'http://localhost:8080/leavemanagement';
 							} else {
@@ -87,9 +84,72 @@ leaveModule.controller('leaveApproval',[
 										.get().then(function(data) {
 											$scope.leaveApproval = {};
 											$scope.rowCollectionApproval = data.plain();
+											if($cookies.getObject('userInfo').currentUser.employeeType == '964'){
+												console.log("executing availed block");
+												Restangular.one("employee/" + empId + "/leave/approved")
+												.get().then(function(response) {
+													//$scope.leaveApproval = {};
+													for (var i=0; i<response.length; i++){
+														console.log(response.plain()[i]);
+													    $scope.rowCollectionApproval.push(response.plain()[i]);
+													    console.log($scope.rowCollectionApproval);
+													}
+													
+												})
+											}
 											console.log(data);
 										})
+										
 							}
+							
+							$scope.viewProfileBalance = function(row){
+								$scope.employeeLeaveBalance = {};
+								$('#UpdateBalance').appendTo("body");
+								$scope.employeeLeaveBalance = row;
+								
+								Restangular.one("employee",row.employeeProfile.empId).one("leave").one("balance")
+								.get().then(function(data) {
+									if(data == undefined)
+										$scope.leaveBalance = {};
+									else{
+										console.log(data.plain());
+										$scope.leaveBalance = data.plain();
+										$scope.cl = $scope.leaveBalance.casualLeave;
+										$scope.pl = $scope.leaveBalance.privilegeLeave;
+										$scope.sl = $scope.leaveBalance.sickLeave;
+										$scope.compoff = $scope.leaveBalance.compOff;
+									}
+								});	
+							}
+							
+							$scope.avilLeaveRequest = function(){
+								var leaveBalance = {};
+								
+								$scope.employeeLeaveBalance.leaveHistory.leaveStatusCode = 998;
+								$scope.employeeLeaveBalance.leaveBalance = $scope.leaveBalance; 
+								console.log($scope.employeeLeaveBalance);
+								Restangular.all("employee/" + empId + "/leave/avail")
+								.customPUT($scope.employeeLeaveBalance).then(function(data) {
+												console.log(data.plain());
+												$("#UpdateBalance").modal('hide');
+											});
+							}
+							
+							$scope.notAvail = function(row){
+								$scope.leaveBalance = {};
+								
+								$scope.employeeLeaveBalance = row;
+								$scope.leaveBalance = {empId: $scope.employeeLeaveBalance.employeeProfile.empId};
+								$scope.employeeLeaveBalance.leaveHistory.leaveStatusCode = 999;
+								$scope.employeeLeaveBalance.leaveBalance = $scope.leaveBalance;
+								console.log($scope.employeeLeaveBalance);
+								Restangular.all("employee/" + empId + "/leave/avail")
+								.customPUT($scope.employeeLeaveBalance).then(function(data) {
+												console.log(data.plain());
+												alert("Record Updated");
+											});
+							}
+							
 							$scope.updateStatus = function(row,leaveStatus){
 								$scope.leaveStatus = {};
 								$scope.leaveStatus.leaveId = row.leaveHistory.leaveId;
@@ -110,17 +170,35 @@ leaveModule.controller('leaveApproval',[
 
 leaveSys.filter('leaveStatus', function() {
 	return function(leaveStatusCode) {
-		if (leaveStatusCode == 1000)
-			return "Canceled";
-		else if (leaveStatusCode == 991)
-			return "In-Progress";
-		else if(leaveStatusCode == 992)
-			return "Lead Approved";
-		else if(leaveStatusCode == 993)
-			return "manager Approved";
-		else if(leaveStatusCode == 994)
-			return "Approved";
-		return leaveStatusCode; 
-		
+		switch(leaveStatusCode){
+			case 1000:
+				return  "Canceled";
+			case 991:
+				return "In-Progress";
+			case 992:
+				return "Lead Approved";
+			case 993:
+				return "manager Approved";
+			case 994:
+				return "Approved";
+			case 995:
+				return "Lead Rejected";
+			case 996:
+				return "Manager Rejected";
+			case 997:
+				return "HR Rejected";
+			case 998:
+				return "Availed";
+			case 999:
+				return "Not Availed";
+		}
+	}
+})
+
+leaveSys.filter('ActionType',function(){
+	return function(leaveStatusCode){
+		if(leaveStatusCode == 994)
+			return true;
+		return false;
 	}
 })

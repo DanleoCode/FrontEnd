@@ -2,6 +2,13 @@
 <table st-table="leaveApproval" class="table table-striped" st-safe-src="rowCollectionApproval" >
 	<thead>
 	<tr>
+		<th colspan="2">
+			<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+		</th>
+		<th colspan="3">
+		</th>
+	</tr>
+	<tr>
 		<th>Employee Name</th>
 		<th>Application Date</th>
 		<th>Leave date</th>
@@ -17,16 +24,87 @@
 		<td>{{row.leave.startdate}}</td>
 		<td>{{row.leave.noOfDays}}</td>
 		<td>{{row.leaveHistory.leaveStatusCode | leaveStatus}}</td>
-		<td><button class="btn btn-danger" ng-disabled="" ng-click="updateStatus(row,0)">Reject</button>
-			<button class="btn btn-success" ng-disabled="" ng-click="updateStatus(row,1)">Approve</button></td>
+		<td><button class="btn btn-danger" ng-hide="{{row.leaveHistory.leaveStatusCode==994 ? true : false}}" ng-click="updateStatus(row,0)">
+				<i class="glyphicon glyphicon-remove"></i>
+			</button>
+			<button class="btn btn-success" ng-hide="{{row.leaveHistory.leaveStatusCode==994 ? true : false}}" ng-click="updateStatus(row,1)">
+				<i class="glyphicon glyphicon-ok"></i>
+			</button>
+			<button class="btn btn-danger" ng-show="{{row.leaveHistory.leaveStatusCode==994 ? true : false}}" data-toggle="modal"
+						data-target="#UpdateBalance" ng-click="viewProfileBalance(row)">Avail</button>
+			<button class="btn btn-success" ng-show="{{row.leaveHistory.leaveStatusCode==994 ? true : false}}" ng-click="notAvail(row)">not Avail</button>
+			</td>
 	</tr>
 	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="5" class="text-center">
-				<div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
+				<div st-pagination="" st-items-by-page="5" st-displayed-pages="4"></div>
 			</td>
 		</tr>
 <!-- 		</tfoot> -->
 </table>
+</div>
+
+<!-- <div ng-include="updateleavebalance.html"></div> -->
+
+<!-- Update leave Balance model -->
+<div class="modal fade" id="UpdateBalance" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					{{employeeLeaveBalance.employeeInfo.firstName + " " + employeeLeaveBalance.employeeInfo.lastName}}
+				</h4>
+			</div>
+			<div class="modal-body">
+			
+				<div class="panel-body">
+					<dl class="dl-horizontal">
+						<dt>Type Of Leave :</dt>
+						<dd>{{employeeLeaveBalance.leave.leaveTypeId | leaveType}}</dd>
+						<dt>No Of Days :</dt>
+						<dd>{{employeeLeaveBalance.leave.noOfDays}}</dd>
+						<dt>From :</dt>
+						<dd>{{employeeLeaveBalance.leave.startdate}}</dd>
+						<dt>To :</dt>
+						<dd>{{employeeLeaveBalance.leave.endDate}}</dd>
+					</dl>
+				</div>
+				<form class="form" role="form">
+					<div class="form-group col-md-6">
+						<label for="employeeId">
+							Casual Leave : {{cl}}
+						</label>
+						<input type="text" class="form-control" id="cl"
+							ng-model="leaveBalance.casualLeave" placeholder="New causla Leave balance">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="Privilege Leave">
+							Privilege Leave : {{pl}}
+						</label>
+						<input type="Text" class="form-control" id="pl"
+							ng-model="leaveBalance.privilegeLeave" placeholder="New Privilege Leave Balance">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Sick Leave">Sick Leave : {{sl}}</label>
+						<input type="Text" class="form-control" id="sl"
+							ng-model="leaveBalance.sickLeave" placeholder="New Sick Leave Balance">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Comp Off">Comp Off</label>
+						<input type="text" class="form-control" id="compOff"
+							ng-model="leaveBalance.compOff" placeholder="Comp Off">
+					</div>
+					
+					<button type="submit" class="btn btn-default" ng-click="avilLeaveRequest()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

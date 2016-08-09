@@ -6,7 +6,8 @@ admin.controller("listProfile", [
 						'accountStatus',
 						'$cookies',
 						'$window',
-						function($scope, Restangular, accountStatus,$cookies,$window) {
+						'employeeTypeCode',
+						function($scope, Restangular, accountStatus,$cookies,$window,employeeTypeCode) {
 							if (($cookies.getObject('userInfo') == undefined)) {
 								$window.location.href = 'http://localhost:8080/leavemanagement';
 							} else {
@@ -27,8 +28,9 @@ admin.controller("listProfile", [
 								}
 								$scope.editProfile = function(row) {
 									$scope.accountType = accountStatus.getaccountStatusList();
+									$scope.employeeType = employeeTypeCode.getEmployeeTypeList();
 									$scope.employeeProfile = row;	
-									console.log($scope.employeeProfile.empId);
+									console.log($scope.employeeProfile);
 									Restangular.one("employee",$scope.employeeProfile.empId).one("leave").one("balance")
 									.get().then(function(data) {
 										if(data == undefined)
@@ -49,11 +51,39 @@ admin.controller("listProfile", [
 									Restangular.all("employee/profile/" + empId)
 									.customPUT($scope.employee).then(function(data){
 										console.log(data);
+										$("#EditProfile").modal('hide');
 									})
 								};
 							}
 						} ])
 
+admin.controller('allHistory',['$scope','Restangular','$cookies','$window',
+                 function($scope, Restangular, $cookies, $windows){
+				if (($cookies.getObject('userInfo') == undefined)) {
+					$window.location.href = 'http://localhost:8080/leavemanagement';
+				} else {
+					$scope.fullHistory = {};
+					console.log("heloo");
+					Restangular.one("employee",$cookies.getObject('userInfo').currentUser.empId).one("leave/all")
+					.get().then(function(data) {
+						if(data == undefined)
+							$scope.leaveBalance = {};
+						else{
+								console.log(data.plain());
+								$scope.rowCollectionHistory = data.plain();
+							}
+						});
+				}
+				
+				$scope.viewLeaveDetail = function(row){
+					$('#viewLeave').appendTo("body");
+					console.log(row.employeeProfile);
+					$scope.employeeProfile = row.employeeProfile;
+					$scope.employeeInfo = row.employeeInfo;
+					$scope.leave = row.leave;
+					$scope.leaveHistory = row.leaveHistory;
+				}
+}]);
 admin.filter('AcocountStatus', function() {
 	return function(code) {
 		if (code == 901)
