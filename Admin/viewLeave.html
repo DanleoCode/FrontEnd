@@ -1,0 +1,126 @@
+
+<!--  <!-- Page Heading --> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Leave
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <a ui-sref="leaveHistory" ng-show='{{fromState === "history" ? true : false}}'>
+                                	<i class="fa fa-file-text"></i> Leave History</a>
+                                <a ui-sref="approval" ng-show='{{fromState === "approval" ? true : false}}'>
+                                	<i class="fa fa-file-text"></i> Leave Approval</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-eye"></i> Leave
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+			<div class="col col-md-offset-4">
+				<div class="panel-body">
+					<dl class="dl-horizontal">
+						<dt>Employee ID</dt>
+						<dd>{{employeeInfo.empCode}}</dd>
+						<dt>First Name</dt>
+						<dd>{{employeeInfo.firstName}}</dd>
+						<dt>Last Name</dt>
+						<dd>{{employeeInfo.lastName}}</dd>
+						<dt>Leave Type</dt>
+						<dd>{{leave.leaveTypeId | leaveType}}</dd>
+						<dt>Application Date</dt>
+						<dd>{{leaveHistory.creationTime | date : 'yyyy-MM-dd'}}</dd>
+						<dt>No Of Days</dt>
+						<dd>{{leave.noOfDays}}</dd>
+						<dt>From Date</dt>
+						<dd>{{leave.startdate | date : 'yyyy-MM-dd'}}</dd>
+						<dt>To Date</dt>
+						<dd>{{leave.endDate | date : 'yyyy-MM-dd'}}</dd>
+						<dt>Last Status</dt>
+						<dd>{{leaveHistory.leaveStatusCode | leaveStatus}}</dd>
+						<dt>Leave Message</dt>
+						<dd>{{leave.message}}</dd>
+					</dl>
+					<div class="col-md-offset-2">
+
+						<button class="btn btn-danger" ng-show="showReject(leaveHistory.leaveStatusCode)" ng-click="updateStatus(row,0)">
+							<i class="glyphicon glyphicon-remove"></i>Reject </button>
+						<button class="btn btn-success" ng-show="showReject(leaveHistory.leaveStatusCode)" ng-click="updateStatus(row,1)">
+							<i class="glyphicon glyphicon-ok"></i>
+							Approve
+					    </button>
+						<button class="btn btn-danger" ng-show="{{leaveHistory.leaveStatusCode==994 ? true : false}}" data-toggle="modal"
+							data-target="#UpdateBalance" ng-click="viewProfileBalance()">
+							Avail
+						</button>
+						<button class="btn btn-success" ng-show="{{leaveHistory.leaveStatusCode==994 ? true : false}}" ng-click="notAvail(row)">
+							not Avail
+						</button>
+						<button class="btn btn-primary" ng-show="showClose(leaveHistory.leaveStatusCode)" ng-click="$state.go('leaveHistory')">
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="UpdateBalance" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					{{employeeLeaveBalance.employeeInfo.firstName + " " + employeeLeaveBalance.employeeInfo.lastName}}
+				</h4>
+			</div>
+			<div class="modal-body">
+			
+				<div class="panel-body">
+					<dl class="dl-horizontal">
+						<dt>Type Of Leave :</dt>
+						<dd>{{employeeLeaveBalance.leave.leaveTypeId | leaveType}}</dd>
+						<dt>No Of Days :</dt>
+						<dd>{{employeeLeaveBalance.leave.noOfDays}}</dd>
+						<dt>From :</dt>
+						<dd>{{employeeLeaveBalance.leave.startdate}}</dd>
+						<dt>To :</dt>
+						<dd>{{employeeLeaveBalance.leave.endDate}}</dd>
+					</dl>
+				</div>
+				<form class="form" role="form">
+					<div class="form-group col-md-6">
+						<label for="employeeId">
+							Casual Leave : {{cl}}
+						</label>
+						<input type="text" class="form-control" id="cl"
+							ng-model="leaveBalance.casualLeave" placeholder="New causla Leave balance">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="Privilege Leave">
+							Privilege Leave : {{pl}}
+						</label>
+						<input type="Text" class="form-control" id="pl"
+							ng-model="leaveBalance.privilegeLeave" placeholder="New Privilege Leave Balance">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Sick Leave">Sick Leave : {{sl}}</label>
+						<input type="Text" class="form-control" id="sl"
+							ng-model="leaveBalance.sickLeave" placeholder="New Sick Leave Balance">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Comp Off">Comp Off</label>
+						<input type="text" class="form-control" id="compOff"
+							ng-model="leaveBalance.compOff" placeholder="Comp Off">
+					</div>
+					
+					<button type="submit" class="btn btn-default" ng-click="avilLeaveRequest()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

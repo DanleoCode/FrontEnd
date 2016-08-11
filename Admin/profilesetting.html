@@ -1,0 +1,49 @@
+
+<div class="row">
+     <div class="col-lg-12">
+         <h1 class="page-header">
+             Profile <small>Setting</small>
+         </h1>
+         <ol class="breadcrumb">
+             <li class="active">
+                 <i class="fa fa-lock" aria-hidden="true"></i> Change Password
+             </li>
+         </ol>
+     </div>
+ </div>
+
+<link rel="stylesheet" href="style/settings.css">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a data-target="#password" role="tab" data-toggle="tab">Change
+				Password</a></li>
+<!-- 		<li role="presentation"><a  data-target="#SecurityQuestion"  data-toggle="tab" role="tab">Change -->
+<!-- 				Contact</a></li> -->
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="password">
+			<div class="login-page">
+				<div class="form">
+					<form class="login-form">
+						<input type="password"  placeholder="Current Password" ng-model="currentPassword"/>
+						<input type="password"  placeholder="New Password" ng-model="newPassword"/>
+						<input type="password"  placeholder="Confirm Password"  ng-model="password"/>
+						<button class="btn btn-primary" ng-click="updatePassword()">Change Password</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+<!-- 		<div role="tabpanel" class="tab-pane" id="SecurityQuestion"> -->
+<!-- 			<div class="login-page"> -->
+<!-- 				<div class="form"> -->
+<!-- 					<form class="login-form"> -->
+						
+<!-- 					</form> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+	</div>
+

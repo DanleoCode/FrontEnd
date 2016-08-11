@@ -1,0 +1,282 @@
+
+<!--  <!-- Page Heading --> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Employees <small>Profile Overview</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i> Employees
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+<div class="col col-md-12">
+	<table st-table="profileList" st-pipe="fatchData" class="table table-striped"
+		st-safe-src="rowCollectionProfile">
+		<thead>
+			<tr>
+				<th colspan="2">
+					<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+				</th>
+				<th colspan="3">
+				</th>
+				<th colspan="1">
+					<button class="btn btn-primary" data-toggle="modal" data-target="#createProfile" ng-click="createProfile()"><i class="glyphicon glyphicon-plus" >
+					</i> Employee</button>
+				</th>
+			</tr>
+			
+			<tr>
+				<th st-sort="empCode" class="sort-header">EmployeeId</th>
+				<th>Employee Name</th>
+				<th>Creation Date</th>
+				<th>Contact</th>
+				<th>status</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="row in profileList" st-select-row="row">
+				<td>{{row.empCode}}</td>
+				<td>{{row.firstName + " " + row.lastName}}</td>
+				<td>{{row.creationTime | date : 'yyyy-MM-dd'}}</td>
+				<td>{{row.mobile}}</td>
+				<td>{{row.employeeAccountStatus | AccountStatus}}</td>
+				<td>
+					<button class="btn btn-primary" ng-click="viewProfile(row)"
+						data-toggle="modal" data-target="#myodal"><i class="glyphicon glyphicon-eye-open"></i></button>
+					<button class="btn btn-success" data-toggle="modal"
+						data-target="#EditProfile" ng-click="editProfile(row)"><i class="glyphicon glyphicon-edit"></i></button>
+				</td>
+
+			</tr>
+
+		</tbody>
+
+
+		<tfoot>
+			<tr>
+				<td colspan="5" class="text-center">
+					<div st-pagination="3" st-items-by-page="5"
+						st-displayed-pages="4"></div>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+
+<!-- View Profile Modal -->
+<div class="modal fade" id="myodal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Employee Detail</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<dl class="dl-horizontal">
+						<dt>Employee ID</dt>
+						<dd>{{employeeProfile.empCode}}</dd>
+						<dt>First Name</dt>
+						<dd>{{employeeProfile.firstName}}</dd>
+						<dt>Last Name</dt>
+						<dd>{{employeeProfile.lastName}}</dd>
+						<dt>Gender</dt>
+						<dd>{{employeeProfile.gender | gender}}</dd>
+						<dt>E-mail</dt>
+						<dd>{{employeeProfile.email}}</dd>
+						<dt>Contact No</dt>
+						<dd>{{employeeProfile.mobile}}</dd>
+						<dt>Employee Type</dt>
+						<dd>{{employeeProfile.employeeType | EmployeeType}}</dd>
+						<dt>creation Date</dt>
+						<dd>{{employeeProfile.creationTime | date : 'yyyy-MM-dd'}}</dd>
+						<dt>Account Status</dt>
+						<dd>{{employeeProfile.employeeAccountStatus | AccountStatus}}</dd>
+						<dt>Approver 1</dt>
+						<dd>{{approver1}}</dd>
+						<dt>Approver 2</dt>
+						<dd>{{approver2}}</dd>
+						<dt>Approver 3</dt>
+						<dd>{{approver3}}</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- EDIT PROFILE Modal -->
+<div class="modal fade" id="EditProfile" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Edit Employee</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form" role="form">
+					<div class="form-group col-md-6">
+						<label for="employeeId">Employee Id</label>
+						<input type="text" class="form-control" id="empCode"
+							ng-model="employeeProfile.empCode" placeholder="Employee ID">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="firstName">First Name</label>
+						<input type="Text" class="form-control" id="fName"
+							ng-model="employeeProfile.firstName" placeholder="First Name">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Last Name">Last Name</label>
+						<input type="Text" class="form-control" id="LName"
+							ng-model="employeeProfile.lastName" placeholder="Last Name">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Email">Email</label>
+						<input type="Email" class="form-control" id="email"
+							ng-model="employeeProfile.email" placeholder="Email">
+					</div>
+					<div class="form-group  col-md-6">
+					<label for="Contact">Contact</label>
+						<input type="Text" class="form-control" id="mobile"
+							ng-model="employeeProfile.mobile" placeholder="Contact Number">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="gender">gender</label>
+						<select class="form-control" ng-model="employeeProfile.gender" 
+						ng-options = "(item?'Male':'Female') for item in [true, false]">
+						</select>
+					</div>
+					<div class="form-group col-md-6">
+					<label for="gender">Account Status</label>
+						<select class="form-control" ng-model="employeeProfile.employeeAccountStatus" 
+						ng-options="value as key for (key , value) in accountType">
+						</select>
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Approver1">Approver1</label>
+						<input type="Text" class="form-control" id="Approver1"
+							ng-model="employeeProfile.approver1" placeholder="Approver 1">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Approver2">Approver2</label>
+						<input type="Text" class="form-control" id="Approver2"
+							ng-model="employeeProfile.approver2" placeholder="Approver 2">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Approver3">Approver3</label>
+						<input type="Text" class="form-control" id="Approver3"
+							ng-model="employeeProfile.approver3" placeholder="Approver 3">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Casual Leave">Casual Leave</label>
+						<input type="Text" class="form-control" id="cl"
+							ng-model="leaveBalance.casualLeave" placeholder="casual Leave">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Privilege Leave">Privilege Leave</label>
+						<input type="Text" class="form-control" id="pl"
+							ng-model="leaveBalance.privilegeLeave" placeholder="Privilege Leave">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Privilege Leave">Sick Leave</label>
+						<input type="Text" class="form-control" id="sl"
+							ng-model="leaveBalance.sickLeave" placeholder="Sick Leave">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="CompOff Leave">CompOff Leave</label>
+						<input type="Text" class="form-control" id="comL"
+							ng-model="leaveBalance.compOff" placeholder="CompOff Leave">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="gender">Employee Type</label>
+						<select class="form-control" ng-model="employeeProfile.employeeType" 
+						ng-options="value as key for (key , value) in employeeType">
+						</select>
+					</div>
+					<div class="form-group col-md-6">
+					
+					</div>
+					<button type="submit" class="btn btn-default" ng-click="submitEdit()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Create Employee -->
+<div class="modal fade" id="createProfile" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Edit Employee</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form" role="form">
+					<div class="form-group col-md-6">
+						<label for="employeeId">Employee Id</label>
+						<input type="text" class="form-control" id="empCode"
+							ng-model="employeeInfo.empCode" placeholder="Employee ID">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Email">Email</label>
+						<input type="Email" class="form-control" id="email"
+							ng-model="employeeInfo.email" placeholder="Email">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="firstName">First Name</label>
+						<input type="Text" class="form-control" id="fName"
+							ng-model="employeeInfo.firstName" placeholder="First Name">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Last Name">Last Name</label>
+						<input type="Text" class="form-control" id="LName"
+							ng-model="employeeInfo.lastName" placeholder="Last Name">
+					</div>
+					<div class="form-group  col-md-6">
+					<label for="Contact">Contact</label>
+						<input type="Text" class="form-control" id="mobile"
+							ng-model="employeeInfo.mobile" placeholder="Contact Number">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="gender">gender</label>
+						<select class="form-control" ng-model="employeeInfo.gender" 
+						ng-options = "(item?'Male':'Female') for item in [true, false]">
+						</select>
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Last Name">Password</label>
+						<input type="password" class="form-control" id="password"
+							ng-model="employeeInfo.password" placeholder="password">
+					</div>
+					<div class="form-group col-md-6">
+					<label for="Last Name"> </label>
+						
+					</div>
+					<button type="submit" class="btn btn-default" ng-click="submitEmp()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
